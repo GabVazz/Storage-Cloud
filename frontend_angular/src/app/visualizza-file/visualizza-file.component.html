@@ -1,0 +1,33 @@
+<app-navbar></app-navbar>
+<p-card header="Scegli una categoria">
+    <p-selectButton 
+    [options]="stateOptions" 
+    [(ngModel)]="value" 
+    (ngModelChange)="onOptionChange($event)"
+    optionLabel="label" 
+    optionValue="value" />
+
+  <div class="flex flex-column gap-4 mt-4">
+      <app-immagini *ngIf="value === 'immagini'"></app-immagini>
+      <app-video *ngIf="value === 'video'"></app-video>
+      <app-messaggi *ngIf="value === 'messaggi'"></app-messaggi>
+      <app-progetti *ngIf="value === 'progetti'"></app-progetti>
+      
+      <p-dialog header="Accesso all'Area Personale, inserisci di nuovo la tua password" [(visible)]="passwordDialogVisible" [modal]="true" [closable]="false" [style]="{width: '30vw'}">
+        <form [formGroup]="passwordForm" (ngSubmit)="onSubmit()">
+            <div class="p-fluid">
+                <div class="p-field">
+                    <label for="password">Inserisci la tua password</label>
+                    <input id="password" type="password" formControlName="password" pInputText class = "mt-3"/>
+                </div>
+                <div class="p-field flex gap-2">
+                    <p-button type="button" label="Annulla" (click)="onCancel()" class="p-button-outlined mt-3"></p-button>
+                    <p-button type="submit" label="Conferma" [disabled]="passwordForm.invalid" class="mt-3"></p-button>
+                </div>
+            </div>
+        </form>
+    </p-dialog>
+  </div>
+
+  <app-area-personale *ngIf="isLoggedInAreaPersonale() === true && value === 'areaPersonale'"></app-area-personale>
+</p-card>

@@ -1,0 +1,41 @@
+/* Stile per il menubar */
+.p-menubar {
+    background-color: #007bff; /* Colore di sfondo della navbar */
+    color: white; /* Colore del testo */
+}
+
+.p-menubar .p-menubar-start {
+    display: flex;
+    align-items: center;
+}
+
+.p-menubar .p-menubar-start h3 {
+    margin: 0;
+    color: white;
+}
+
+.p-menubar .p-menubar-end {
+    display: flex;
+    align-items: center;
+}
+
+.p-button {
+    background-color: #ffffff; /* Colore di sfondo dei pulsanti */
+    color: #007bff; /* Colore del testo dei pulsanti */
+    border: 1px solid #ffffff; /* Colore del bordo dei pulsanti */
+}
+
+/* Aggiungi un margine a destra per il pulsante di login */
+.login-button {
+    margin-right: 10px; /* Modifica il valore secondo le tue esigenze */
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    color: white; /* Assicurati che il testo sia visibile */
+}
+
+.p-menubar .p-menu {
+    background-color: #007bff; /* Colore di sfondo del menu popup */
+}

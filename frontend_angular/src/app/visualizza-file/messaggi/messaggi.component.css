@@ -1,0 +1,50 @@
+.p-table th, .p-table td {
+    text-align: center; /* Allinea il testo orizzontalmente al centro */
+    vertical-align: middle; /* Allinea il testo verticalmente al centro */
+    padding: 0.5rem; /* Aggiunge padding per una migliore spaziatura */
+}
+
+.p-table .button-container {
+    display: flex;
+    align-items: center; /* Allinea verticalmente i pulsanti */
+    justify-content: center; /* Centra i pulsanti orizzontalmente */
+}
+
+.p-table .button-container p-button + p-button {
+    margin-left: 0; /* Rimuove lo spazio extra tra i pulsanti */
+}
+
+.p-table .button-container p-button {
+    margin-left: 0; /* Assicura che non ci sia spazio extra a sinistra dei pulsanti */
+}
+
+.p-table td {
+    vertical-align: middle; /* Allinea verticalmente il contenuto della cella */
+}
+
+.p-table th {
+    background-color: #f4f4f4; /* Aggiunge uno sfondo leggero per le intestazioni */
+    font-weight: bold; /* Rende il testo delle intestazioni grassetto */
+}
+
+.p-table .button-container p-button {
+    margin: 0; /* Rimuove margini extra dai pulsanti per una disposizione compatta */
+}
+
+.url-link {
+    color: #007bff;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.url-link:hover {
+    color: #0056b3;
+}
+
+.description-cell {
+    max-width: 200px; /* Imposta una larghezza massima per la cella */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+

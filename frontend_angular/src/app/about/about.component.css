@@ -1,0 +1,23 @@
+
+.about-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+p-card {
+    margin: 20px auto;
+    color: #FFF;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+h2 {
+    color: #1E90FF;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    font-weight: 600;
+}

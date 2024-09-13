@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../../node_modules/rxjs/dist/esm5/internal/operators/catchError.js"],
+  "sourcesContent": ["import { innerFrom } from '../observable/innerFrom';\nimport { createOperatorSubscriber } from './OperatorSubscriber';\nimport { operate } from '../util/lift';\nexport function catchError(selector) {\n    return operate(function (source, subscriber) {\n        var innerSub = null;\n        var syncUnsub = false;\n        var handledResult;\n        innerSub = source.subscribe(createOperatorSubscriber(subscriber, undefined, undefined, function (err) {\n            handledResult = innerFrom(selector(err, catchError(selector)(source)));\n            if (innerSub) {\n                innerSub.unsubscribe();\n                innerSub = null;\n                handledResult.subscribe(subscriber);\n            }\n            else {\n                syncUnsub = true;\n            }\n        }));\n        if (syncUnsub) {\n            innerSub.unsubscribe();\n            innerSub = null;\n            handledResult.subscribe(subscriber);\n        }\n    });\n}\n"],
+  "mappings": ";;;;;;;AAGO,SAAS,WAAW,UAAU;AACjC,SAAO,QAAQ,SAAU,QAAQ,YAAY;AACzC,QAAI,WAAW;AACf,QAAI,YAAY;AAChB,QAAI;AACJ,eAAW,OAAO,UAAU,yBAAyB,YAAY,QAAW,QAAW,SAAU,KAAK;AAClG,sBAAgB,UAAU,SAAS,KAAK,WAAW,QAAQ,EAAE,MAAM,CAAC,CAAC;AACrE,UAAI,UAAU;AACV,iBAAS,YAAY;AACrB,mBAAW;AACX,sBAAc,UAAU,UAAU;AAAA,MACtC,OACK;AACD,oBAAY;AAAA,MAChB;AAAA,IACJ,CAAC,CAAC;AACF,QAAI,WAAW;AACX,eAAS,YAAY;AACrB,iBAAW;AACX,oBAAc,UAAU,UAAU;AAAA,IACtC;AAAA,EACJ,CAAC;AACL;",
+  "names": []
+}

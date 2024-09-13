@@ -1,0 +1,50 @@
+<div class="mb-4">
+    <p-menubar [model]="items" styleClass="p-element">
+        <ng-template pTemplate="start">
+            <!-- Logo e Nome dell'Applicazione -->
+            <a routerLink="/" class="logo">
+                <h3>Storage Cloud di Gabbo</h3>
+            </a>
+        </ng-template>
+
+
+        <ng-template *ngIf="!authProvider.isLoggedIn()" pTemplate="end">
+            <!-- Pulsante Login con classe 'login-button' -->
+            <a routerLink="/login" class="login-button">
+                <p-button label="Login" icon="pi pi-sign-in" size="small" />
+            </a>
+
+            <!-- Pulsante registrazione -->
+            <a routerLink="/registrazione">
+                <p-button label="Registrazione" icon="pi pi-user-plus" size="small" />
+            </a>
+        </ng-template>
+
+
+        <ng-template *ngIf="authProvider.isLoggedIn()" pTemplate="end">
+            <!-- Pulsante Login con classe 'login-button' -->
+            <p-button [label]="authProvider.getUsername()" icon="pi pi-user" severity="contrast" size="small"
+                class="mr-2" />
+
+            <!-- Pulsante Logout -->
+            <p-button (onClick)="showDialog()" label="Logout" icon="pi pi-sign-out" size="small" severity = "danger"/>
+            <p-dialog [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }" [position]="position">
+                <ng-template pTemplate="headless" let-message>
+                    <div class="flex flex-column align-items-center p-5 surface-overlay border-round">
+                        <div
+                            class="border-circle bg-primary inline-flex justify-content-center align-items-center h-6rem w-6rem">
+                            <i class="pi pi-question text-5xl"></i>
+                        </div>
+                        <p class="mb-0">Vuoi eseguire il logout?</p>
+                        <div class="flex align-items-center gap-2 mt-4">
+                            <p-button label="Annulla" (onClick)="hideDialog()" class="p-button-outlined w-8rem ">
+                            </p-button>
+                            <p-button label="Conferma" (onClick)="logout()" class="w-8rem">
+                            </p-button>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-dialog>
+        </ng-template>
+    </p-menubar>
+</div>

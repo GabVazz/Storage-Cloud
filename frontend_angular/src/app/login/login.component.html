@@ -1,0 +1,27 @@
+<app-navbar></app-navbar>
+<div class="login-container">
+    <p-card>
+        <ng-template pTemplate="header">
+            <h2>Login</h2>
+        </ng-template>
+        <ng-template pTemplate="content">
+            <form (ngSubmit)="onSubmit(loginForm.value)" [formGroup]="loginForm">
+                <div class="p-field">
+                    <label for="username">Username</label>
+                    <input id="username" type="text" pInputText formControlName="username" />
+                    <small class="p-error" *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
+                        Username è richiesto.
+                    </small>
+                </div>
+                <div class="p-field">
+                    <label for="password">Password</label>
+                    <input id="password" type="password" pInputText formControlName="password" />
+                    <small class="p-error" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+                        Password è richiesta.
+                    </small>
+                </div>
+                <p-button label="Login" icon="pi pi-sign-in" type="submit" [disabled]="loginForm.invalid"></p-button>
+            </form>
+        </ng-template>
+    </p-card>
+</div>

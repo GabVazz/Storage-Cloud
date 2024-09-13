@@ -1,0 +1,72 @@
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #000;
+    padding-top: 5%;
+}
+
+p-card {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #1e1e1e;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+p-card h2 {
+    margin: 0;
+    padding: 1rem;
+    background-color: #0091ea;
+    color: #fff;
+    text-align: center;
+}
+
+.p-field {
+    margin-bottom: 1rem;
+    padding: 0 1rem;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    color: #e0e0e0;
+}
+
+input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #333;
+    color: #fff;
+}
+
+input:focus {
+    border-color: #0091ea;
+    outline: none;
+}
+
+small.p-error {
+    color: #f44336;
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.8em;
+}
+
+p-button {
+    margin-left: 1rem;
+    border: none;
+    color: #fff;
+}
+
+p-button:hover {
+    background-color: #0077c2;
+}
+
+p-button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+}

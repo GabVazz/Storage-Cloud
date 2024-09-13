@@ -1,0 +1,167 @@
+<div class="card">
+    <div class="flex justify-content-end align-items-center mb-4">
+        <p-button label="Rimuovi filtri di ricerca" [outlined]="true" icon="pi pi-filter-slash" (onClick)="clear(contents)"
+            class="mr-3"></p-button>
+
+        <!-- Barra di ricerca -->
+        <div class="p-input-icon-right mr-3">
+            <i class="pi pi-search"></i>
+            <input type="text" pInputText placeholder="Cerca..." [(ngModel)]="searchValue"
+                (input)="contents.filterGlobal((searchValue || '').toString(), 'contains')">
+        </div>
+
+        <!-- Pulsante per aprire il dialog di caricamento -->
+        <p-button (onClick)="showDialog()" label="Carica contenuto" icon="pi pi-plus-circle" size="small"
+            severity="success"></p-button>
+    </div>
+
+    <p-dialog [modal]="true" [(visible)]="visible" [style]="{ width: '30rem' }">
+        <ng-template pTemplate="headless" let-message>
+            <div class="flex flex-column align-items-center p-6 surface-overlay border-round">
+                <h3 class="mb-5">Scegli il tipo di contenuto da caricare</h3>
+
+                <!-- Sezione per selezionare il tipo di contenuto -->
+                <div class="p-field mb-5 w-full">
+                    <label for="contentType" class="mb-3 mr-2">Tipo di contenuto</label>
+                    <p-dropdown [(ngModel)]="selectedType" [options]="contentTypes" placeholder="Seleziona il tipo"
+                        class="w-full" required></p-dropdown>
+                </div>
+
+                <!-- Sezione dinamica che cambia in base al tipo selezionato -->
+                <form (ngSubmit)="onUpload()" #uploadForm="ngForm" class="w-full">
+                    <div class="p-field mb-5" *ngIf="isMedia()">
+                        <div class="flex align-items-center gap-3 mb-3">
+                            <label for="file" class="mb-0">Upload file</label>
+                            <input type="file" id="file" (change)="onFileSelected($event)" hidden #fileInput>
+                            <p-button label="Scegli il file" icon="pi pi-upload" (onClick)="fileInput.click()"
+                                class="p-button-outlined w-8rem" size="small"></p-button>
+                        </div>
+                        <span *ngIf="selectedFile" class="mt-3 d-block">{{ selectedFile.name }}</span>
+                    </div>
+
+                    <div class="p-field mb-5" *ngIf="selectedType !== 'testo'">
+                        <label for="descrizione" class="mb-3">Descrizione</label>
+                        <textarea id="descrizione" [(ngModel)]="descrizione" name="descrizione" class="w-full p-2"
+                            placeholder="Descrizione" required rows="5"></textarea>
+                    </div>
+
+                    <div class="p-field mb-5" *ngIf="selectedType === 'testo'">
+                        <label for="nome" class="mb-3">Nome</label>
+                        <input type="text" id="nome" [(ngModel)]="nome" name="nome" class="w-full p-2"
+                            placeholder="Nome" required>
+                    </div>
+
+                    <div class="p-field mb-5" *ngIf="selectedType === 'testo'">
+                        <label for="descrizioneTesto" class="mb-3">Descrizione</label>
+                        <textarea id="descrizioneTesto" [(ngModel)]="descrizione" name="descrizione" class="w-full p-2"
+                            placeholder="Descrizione" required rows="5"></textarea>
+                    </div>
+
+                    <div class="p-field mb-5" *ngIf="selectedType === 'testo'">
+                        <label for="url" class="mb-3">URL (opzionale)</label>
+                        <input type="text" id="url" [(ngModel)]="url" name="url" class="w-full p-2"
+                            placeholder="URL (opzionale)">
+                    </div>
+
+                    <!-- Sezione Bottoni -->
+                    <div class="flex align-items-center gap-3 mt-5 justify-content-center">
+                        <p-button label="Annulla" (onClick)="hideDialog()" class="p-button-outlined w-8rem"></p-button>
+                        <p-button type="submit" label="Carica contenuto" class="w-8rem"
+                            [disabled]="!canSubmit()"></p-button>
+                    </div>
+                </form>
+            </div>
+        </ng-template>
+    </p-dialog>
+
+    <p-table #contents [value]="contenuti" [tableStyle]="{'min-width': '60rem'}" class="mt-5" [rows]="4"
+    [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+    [globalFilterFields]="['nome', 'descrizione', 'dimensione', 'dataCreazione']">
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width:15%">
+                <p style="color: rgb(0,210,255);">Preview</p>
+            </th>
+            <th pSortableColumn="nome" style="width:15%">
+                <p style="color: rgb(0,210,255);">Nome <p-sortIcon field="nome" /></p>
+            </th>
+            <th pSortableColumn="descrizione" style="width:20%">
+                <p style="color: rgb(0,210,255);">Descrizione <p-sortIcon field="descrizione" /></p>
+            </th>
+            <th pSortableColumn="descrizione" style="width:10%">
+                <p style="color: rgb(0,210,255);">Link <p-sortIcon field="descrizione" /></p>
+            </th>
+            <th pSortableColumn="dimensione" style="width:15%">
+                <p style="color: rgb(0,210,255);">Dimensione <p-sortIcon field="dimensione" /></p>
+            </th>
+            <th pSortableColumn="dataCreazione" style="width:15%">
+                <p style="color: rgb(0,210,255);">Data Creazione <p-sortIcon field="dataCreazione" /></p>
+            </th>
+            <th style="width:10%">
+                <p style="color: rgb(0,210,255);">Azioni</p>
+            </th>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-contenuto>
+        <tr>
+            <td>
+                <!-- Mostra l'anteprima in base al tipo di file -->
+                <ng-container [ngSwitch]="contenuto.tipoFile">
+                    <ng-container *ngSwitchCase="'image/jpeg'">
+                        <!-- Sezione dell'immagine con anteprima -->
+                        <div class="preview-container" (click)="toggleFullPreview(contenuto)">
+                            <img [src]="getFileUrl(contenuto.gridFsId)" alt="Preview" class="preview-image">
+                        </div>
+                        <p class="tooltip-text">(Clicca sopra col<br>mouse per ingrandire)</p>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'image/png'">
+                        <!-- Sezione dell'immagine con anteprima -->
+                        <div class="preview-container" (click)="toggleFullPreview(contenuto)">
+                            <img [src]="getFileUrl(contenuto.gridFsId)" alt="Preview" class="preview-image">
+                        </div>
+                        <p class="tooltip-text">(Clicca sopra col<br>mouse per ingrandire)</p>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'video/mp4'">
+                        <div class="video-container">
+                            <video [src]="getFileUrl(contenuto.gridFsId)" class="video-preview"></video>
+                            <a [href]="getFileUrl(contenuto.gridFsId)" target="_blank" class="view-link">Clicca per visualizzare il video</a>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchDefault>
+                        <p><i>(Preview solo per immagini/video)</i></p>
+                    </ng-container>
+                </ng-container>
+            </td>
+            <td>{{ contenuto.nome }}</td>
+            <td [pTooltip]="contenuto.descrizione" tooltipPosition="top" class="description-cell">
+                {{ contenuto.descrizione }}
+            </td>
+            <td *ngIf = "contenuto.url !== null">
+                {{ contenuto.link }}
+            </td>
+            <td *ngIf = "contenuto.url === null">
+                <p><i>(Link solo per messaggi di testo)</i></p>
+            </td>
+            <td>{{ contenuto.dimensione }} bytes</td>
+            <td>{{ contenuto.dataCreazione | date:'short' }}</td>
+            <td class="button-container">
+                <p-button icon="pi pi-download" class="p-button-rounded p-button-outlined p-button-sm mr-2"
+                    (onClick)="downloadContenuto(contenuto)" severity="secondary"></p-button>
+                <p-button icon="pi pi-trash" class="p-button-rounded p-button-outlined p-button-sm"
+                    (onClick)="deleteContenuto(contenuto)" severity="danger"></p-button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+</div>
+
+<!-- Immagine ingrandita a schermo intero con bottone di chiusura -->
+<p-dialog [(visible)]="fullPreviewVisible" [modal]="true" [style]="{ width: 'auto' }" [closable]="false">
+    <ng-template pTemplate="content">
+        <button class="close-button" (click)="closeFullPreview()">Chiudi (×)</button>
+        <div class="full-preview-container">
+            <img [src]="selectedImageUrl" alt="Full Preview" class="full-preview">
+        </div>
+    </ng-template>
+</p-dialog>

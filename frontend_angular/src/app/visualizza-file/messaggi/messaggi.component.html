@@ -1,0 +1,94 @@
+<div class="card">
+  <div class="flex justify-content-end align-items-center mb-4">
+    <p-button label="Rimuovi filtri di ricerca" [outlined]="true" icon="pi pi-filter-slash" (onClick)="clear(msgs)" class="mr-3" />
+    
+    <!-- Barra di ricerca -->
+    <div class="p-input-icon-right mr-3">
+      <i class="pi pi-search"></i>
+      <input type="text" pInputText placeholder="Cerca..." [(ngModel)]="searchValue"
+        (input)="msgs.filterGlobal((searchValue || '').toString(), 'contains')">
+    </div>
+
+    <!-- Pulsante Carica un messaggio -->
+    <p-button (onClick)="showDialog()" label="Carica un messaggio" icon="pi pi-plus-circle" size="small" severity="success"></p-button>
+  </div>
+
+  <p-dialog [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+    <ng-template pTemplate="headless" let-message>
+      <div class="flex flex-column align-items-center p-6 surface-overlay border-round">
+        <h3 class="mb-5">Scegli un nome, descrizione, url(opzionale)</h3>
+
+        <!-- Sezione form upload -->
+        <form (ngSubmit)="onUpload()" #uploadForm="ngForm" class="w-full">
+          <div class="p-field mb-5">
+            <label for="nome" class="mb-3">Nome</label>
+            <textarea id="nome" [(ngModel)]="nome" name="nome" class="w-full p-2" placeholder="Nome del messaggio"
+              required rows="5"></textarea>
+          </div>
+
+          <div class="p-field mb-5">
+            <label for="descrizione" class="mb-3">Descrizione</label>
+            <textarea id="descrizione" [(ngModel)]="descrizione" name="descrizione" class="w-full p-2"
+              placeholder="Descrizione del messaggio" required rows="5"></textarea>
+          </div>
+
+          <div class="p-field mb-5">
+            <label for="url" class="mb-3">Url(opzionale)</label>
+            <textarea id="url" [(ngModel)]="url" name="url" class="w-full p-2" placeholder="Url dell'immagine" rows="5"></textarea>
+          </div>
+
+          <!-- Sezione Bottoni -->
+          <div class="flex align-items-center gap-3 mt-5 justify-content-center">
+            <p-button label="Annulla" (onClick)="hideDialog()" class="p-button-outlined w-8rem"></p-button>
+            <p-button type="submit" label="Carica messaggio" class="w-8rem" [disabled]="!nome || !descrizione"></p-button>
+          </div>
+        </form>
+      </div>
+    </ng-template>
+  </p-dialog>
+
+  <p-table #msgs [value]="messaggi" [tableStyle]="{'min-width': '60rem'}" class="mt-5" [rows]="5"
+    [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+    [globalFilterFields]="['nome', 'descrizione', 'url', 'dataCreazione']">
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="nome" style="width:15%">
+          <p style="color: rgb(0,210,255);">Nome <p-sortIcon field="nome" /></p>
+        </th>
+        <th pSortableColumn="descrizione" style="width:35%">
+          <p style="color: rgb(0,210,255);">Descrizione <p-sortIcon field="descrizione" /></p>
+        </th>
+        <th pSortableColumn="url" style="width:10%">
+          <p style="color: rgb(0,210,255);">Url <p-sortIcon field="url" /></p>
+        </th>
+        <th pSortableColumn="dataCreazione" style="width:15%">
+          <p style="color: rgb(0,210,255);">Data Creazione <p-sortIcon field="dataCreazione" /></p>
+        </th>
+        <th style="width:10%">
+          <p style="color: rgb(0,210,255);">Azioni</p>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-messaggio>
+      <tr>
+        <td>{{ messaggio.nome }}</td>
+        <td [pTooltip]="messaggio.descrizione" tooltipPosition="top" class="description-cell">
+          {{ messaggio.descrizione }}
+      </td>
+        <td>
+          <a *ngIf="messaggio.url" [href]="messaggio.url" target="_blank" class="url-link">
+            {{ messaggio.url }}
+          </a>
+          <span *ngIf="!messaggio.url">N/A</span>
+        </td>
+        <td>{{ messaggio.dataCreazione | date:'short' }}</td>
+        <td class="button-container">
+          <p-button icon="pi pi-download" class="p-button-rounded p-button-outlined p-button-sm mr-2"
+            (onClick)="downloadMessaggio(messaggio)" severity="secondary"></p-button>
+          <p-button icon="pi pi-trash" class="p-button-rounded p-button-outlined p-button-sm"
+            (onClick)="deleteMessaggio(messaggio)" severity="danger"></p-button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

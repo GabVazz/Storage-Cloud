@@ -1,0 +1,30 @@
+.p-table th, .p-table td {
+    text-align: center; /* Allinea orizzontalmente al centro */
+    vertical-align: middle; /* Allinea verticalmente al centro */
+}
+
+.p-table th {
+    padding: 0.5rem; /* Aggiunge padding ai titoli delle colonne per una migliore spaziatura */
+}
+
+.p-table .button-container {
+    display: flex;
+    align-items: center; /* Allinea verticalmente i pulsanti */
+    justify-content: center; /* Centra i pulsanti orizzontalmente */
+    padding: 0; /* Rimuove padding extra */
+}
+
+.p-table .button-container p-button {
+    margin-left: 0; /* Rimuove spazio a sinistra tra i pulsanti */
+}
+
+.p-table .button-container p-button + p-button {
+    margin-left: 0; /* Assicura che non ci sia spazio extra tra i pulsanti */
+}
+
+.description-cell {
+    max-width: 200px; /* Imposta una larghezza massima per la cella */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

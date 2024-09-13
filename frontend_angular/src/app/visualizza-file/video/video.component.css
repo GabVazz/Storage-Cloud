@@ -1,0 +1,50 @@
+.p-table th, .p-table td {
+    text-align: center; /* Allinea orizzontalmente al centro */
+    vertical-align: middle; /* Allinea verticalmente al centro */
+    padding: 0.5rem; /* Aggiunge padding per una migliore spaziatura */
+}
+
+.p-table .button-container {
+    display: flex;
+    align-items: center; /* Allinea verticalmente i pulsanti */
+    justify-content: center; /* Centra i pulsanti orizzontalmente */
+}
+
+.p-table .button-container p-button {
+    margin-left: 0; /* Rimuove spazio a sinistra tra i pulsanti */
+}
+
+.p-table .button-container p-button + p-button {
+    margin-left: 0; /* Assicura che non ci sia spazio extra tra i pulsanti */
+}
+
+.video-preview {
+    max-width: 200px;
+    max-height: 200px;
+    display: block;
+}
+
+.video-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.view-link {
+    margin-top: 10px;
+    color: #007bff;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.view-link:hover {
+    color: #0056b3;
+}
+
+.description-cell {
+    max-width: 200px; /* Imposta una larghezza massima per la cella */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
